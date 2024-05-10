@@ -10,7 +10,6 @@ from aiogram.enums import ParseMode
 from handlers import router
 
 
-
 async def main():
     load_dotenv()
     logging.basicConfig(level=logging.INFO)

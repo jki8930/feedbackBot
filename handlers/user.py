@@ -9,6 +9,7 @@ router = Router()
 class Process(StatesGroup):
     name = State()
     number = State()
+    question = State()
 
 
 @router.message(CommandStart())
@@ -28,3 +29,15 @@ async def set_name(message: types.Message, state: FSMContext):
     await message.answer(text="Введите ваш номер телефона:")
     await state.set_state(Process.number)
 
+
+@router.message(Process.number)
+async def set_number(message: types.Message, state: FSMContext):
+    await state.update_data(number=message.text)
+    await message.answer(text="Задайте вопрос:")
+    await state.set_state(Process.question)
+
+
+@router.message(Process.question)
+async def set_question(message: types.Message, state: FSMContext):
+    await state.update_data(question=message.text)
+    await message.answer(text="Спасибо за обращение, ваш вопрос обязательно будет рассмотрен!😋")
