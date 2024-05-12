@@ -8,9 +8,11 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 
 from handlers import router
+from database.models import async_main
 
 
 async def main():
+    await async_main()
     load_dotenv()
     logging.basicConfig(level=logging.INFO)
 

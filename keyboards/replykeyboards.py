@@ -9,3 +9,13 @@ rkb = ReplyKeyboardMarkup(keyboard=
     ],
     resize_keyboard=True
 )
+
+rkb_contact = ReplyKeyboardMarkup(keyboard=
+    [
+        [
+            KeyboardButton(text="Отрпавить контакт", request_contact=True),
+            KeyboardButton(text="Назад")
+        ]
+    ],
+    resize_keyboard=True
+)
