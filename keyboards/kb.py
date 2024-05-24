@@ -22,6 +22,17 @@ rkb_contact = ReplyKeyboardMarkup(keyboard=
     resize_keyboard=True
 )
 
+
+rkb_newquestion = ReplyKeyboardMarkup(keyboard=
+    [
+        [
+            KeyboardButton(text="Создать новый тикет")
+        ]
+    ],
+    resize_keyboard=True
+)
+
+
 async def all_tickets():
     tickets = await get_tickets()
     keybaord = InlineKeyboardBuilder()
