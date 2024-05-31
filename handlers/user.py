@@ -13,6 +13,7 @@ class Process(StatesGroup):
     name = State()
     number = State()
     question = State()
+    other_question = State()
 
 
 @router.message(CommandStart())
@@ -22,9 +23,14 @@ async def start(message: types.Message, state: FSMContext):
         await message.answer(text="Здравствуйте! Здесь вы можете отправить свой вопрос 🤗", 
         reply_markup=kb.rkb)
     else:
-        await message.answer(text="Отпарвить новый запрос можно по кнопке ниже", reply_markup=kb.rkb_newquestion)
-        await state.set_state(Process.question)
+        await message.answer(text="Отпарвить новый запрос можно по кнопке ниже", reply_markup=kb.ikb_newquestion)
 
+
+@router.callback_query(F.data == "new_ticket")
+async def new_ticket(callback: types.CallbackQuery, state: FSMContext):
+    await callback.answer("Создание нового тикета")
+    await state.set_state(Process.other_question)
+    await callback.message.answer("Задайте новый вопрос")
 
 
 @router.message(F.text == "✍ Регистрация")
@@ -59,5 +65,12 @@ async def get_question(message: types.Message, state: FSMContext):
     user = await state.get_data()
     await rq.edit_user(message.from_user.id, user['name'], user['number'], message.from_user.username)
     await rq.add_ticket(message.from_user.id, message.text)
-    await message.answer("Ваше обращение будет рассмотрено, спасибо ☺")
+    await message.answer("Ваше обращение будет рассмотрено, спасибо ☺", reply_markup=kb.ikb_newquestion)
+    await state.clear()
+
+
+@router.message(Process.other_question)
+async def other_question(message: types.Message, state: FSMContext):
+    await rq.add_ticket(message.from_user.id, message.text)
+    await message.answer("Ваше обращение будет рассмотрено, спасибо ☺", reply_markup=kb.ikb_newquestion)
     await state.clear()

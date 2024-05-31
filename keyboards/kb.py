@@ -1,4 +1,4 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from database.requests import get_tickets
 
@@ -23,13 +23,12 @@ rkb_contact = ReplyKeyboardMarkup(keyboard=
 )
 
 
-rkb_newquestion = ReplyKeyboardMarkup(keyboard=
+ikb_newquestion = InlineKeyboardMarkup(inline_keyboard=
     [
         [
-            KeyboardButton(text="Создать новый тикет")
+            InlineKeyboardButton(text="Создать новый тикет", callback_data="new_ticket")
         ]
-    ],
-    resize_keyboard=True
+    ]
 )
 
 

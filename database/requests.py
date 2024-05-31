@@ -48,3 +48,9 @@ async def get_ticket(ticket_id):
     async with async_session() as session:
         ticket = await session.scalar(select(Ticket).where(Ticket.id == ticket_id))
         return ticket
+
+
+async def delete_ticket(ticket_id):
+    async with async_session() as session:
+        await session.execute(delete(Ticket).where(Ticket.id == ticket_id))
+        await session.commit()
